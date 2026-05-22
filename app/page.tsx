@@ -1,13 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { 
-  GraduationCap, 
-  Search,
-  SlidersHorizontal 
-} from "lucide-react";
 
-// --- TYPES DE DONNÉES ---
+// --- TYPES DE DONNÉES OFFICIELS ---
 interface Article {
   id: number;
   title: string;
@@ -64,6 +59,12 @@ export default function BlogHome() {
     }
   ];
 
+  // Filtrer les articles selon la recherche
+  const filteredArticles = recentArticles.filter(article =>
+    article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    article.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen bg-white text-slate-800 font-sans">
       {/* 1. HEADER */}
@@ -76,7 +77,7 @@ export default function BlogHome() {
             <span className="text-xs bg-[#10B981] text-white px-2 py-0.5 rounded-full font-medium">Blog</span>
           </div>
           <div className="relative max-w-xs w-full hidden sm:block">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+            <span className="absolute left-3 top-2 text-slate-400">🔍</span>
             <input 
               type="text" 
               placeholder="Rechercher un article..." 
@@ -93,7 +94,7 @@ export default function BlogHome() {
         <section className="mb-12 bg-[#0F172A] rounded-2xl overflow-hidden shadow-sm grid md:grid-cols-2">
           <div className="h-64 md:h-full bg-gradient-to-br from-blue-600/20 to-emerald-500/20 flex items-center justify-center p-8 border-b md:border-b-0 md:border-r border-slate-800">
             <div className="text-center">
-              <GraduationCap className="h-16 w-16 text-[#10B981] mx-auto mb-2" />
+              <span className="text-6xl block mb-2">🎓</span>
               <p className="text-slate-400 text-sm font-mono">Edge AI / Offline System</p>
             </div>
           </div>
@@ -119,7 +120,7 @@ export default function BlogHome() {
 
         {/* 3. BARRE DES CATÉGORIES */}
         <section className="mb-10 overflow-x-auto pb-2 flex items-center gap-4">
-          <SlidersHorizontal className="h-4 w-4 text-slate-400 shrink-0 hidden md:block" />
+          <span className="text-sm text-slate-400 shrink-0 hidden md:block">🎛️</span>
           <div className="flex gap-3 whitespace-nowrap">
             {categories.map((cat, idx) => (
               <button key={idx} className={`px-4 py-1.5 text-xs font-semibold rounded-full border ${cat.color} transition-all hover:opacity-80`}>
@@ -133,7 +134,7 @@ export default function BlogHome() {
         <section className="mb-16">
           <h2 className="text-xl font-bold text-[#0F172A] mb-6">Articles Récents</h2>
           <div className="grid md:grid-cols-3 gap-6">
-            {recentArticles.map((article) => (
+            {filteredArticles.map((article) => (
               <div key={article.id} className="border border-slate-100 rounded-xl overflow-hidden hover:shadow-md transition-shadow bg-white">
                 <div className="h-44 bg-slate-50 flex items-center justify-center text-3xl">{article.icon}</div>
                 <div className="p-5">
