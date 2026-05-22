@@ -1,6 +1,13 @@
-import React from 'react';
+"use client";
 
-// --- TYPES DE DONNÉES OFFICIELS ---
+import React, { useState } from "react";
+import { 
+  GraduationCap, 
+  Search,
+  SlidersHorizontal 
+} from "lucide-react";
+
+// --- TYPES DE DONNÉES ---
 interface Article {
   id: number;
   title: string;
@@ -9,9 +16,12 @@ interface Article {
   badgeColor: string;
   icon: string;
   date: string;
+  readTime: string;
 }
 
 export default function BlogHome() {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const categories = [
     { name: "IA & Machine Learning", color: "border-emerald-500 text-emerald-500 bg-emerald-500/10" },
     { name: "Carrière Tech", color: "border-blue-600 text-blue-600 bg-blue-600/10" },
@@ -29,7 +39,8 @@ export default function BlogHome() {
       category: "Carrière Tech",
       badgeColor: "text-blue-600 border-blue-100 bg-blue-50",
       icon: "💻",
-      date: "20 Mai 2026"
+      date: "20 Mai 2026",
+      readTime: "6 min"
     },
     {
       id: 2,
@@ -38,7 +49,8 @@ export default function BlogHome() {
       category: "Cybersécurité",
       badgeColor: "text-red-500 border-red-100 bg-red-50",
       icon: "🔒",
-      date: "18 Mai 2026"
+      date: "18 Mai 2026",
+      readTime: "4 min"
     },
     {
       id: 3,
@@ -47,7 +59,8 @@ export default function BlogHome() {
       category: "Afrique Tech",
       badgeColor: "text-yellow-600 border-yellow-100 bg-yellow-50",
       icon: "🌍",
-      date: "15 Mai 2026"
+      date: "15 Mai 2026",
+      readTime: "5 min"
     }
   ];
 
@@ -62,11 +75,16 @@ export default function BlogHome() {
             </span>
             <span className="text-xs bg-[#10B981] text-white px-2 py-0.5 rounded-full font-medium">Blog</span>
           </div>
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
-            <a href="#" className="hover:text-[#2563EB]">Articles</a>
-            <a href="#" className="hover:text-[#2563EB]">Formations</a>
-            <a href="#" className="hover:text-[#2563EB]">À propos</a>
-          </nav>
+          <div className="relative max-w-xs w-full hidden sm:block">
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+            <input 
+              type="text" 
+              placeholder="Rechercher un article..." 
+              className="pl-9 pr-4 py-1.5 w-full bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-[#2563EB]"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         </div>
       </header>
 
@@ -75,8 +93,8 @@ export default function BlogHome() {
         <section className="mb-12 bg-[#0F172A] rounded-2xl overflow-hidden shadow-sm grid md:grid-cols-2">
           <div className="h-64 md:h-full bg-gradient-to-br from-blue-600/20 to-emerald-500/20 flex items-center justify-center p-8 border-b md:border-b-0 md:border-r border-slate-800">
             <div className="text-center">
-              <span className="text-5xl">🤖</span>
-              <p className="text-slate-400 mt-2 text-sm font-mono">Edge AI / Offline System</p>
+              <GraduationCap className="h-16 w-16 text-[#10B981] mx-auto mb-2" />
+              <p className="text-slate-400 text-sm font-mono">Edge AI / Offline System</p>
             </div>
           </div>
           <div className="p-8 md:p-12 flex flex-col justify-center text-white">
@@ -100,7 +118,8 @@ export default function BlogHome() {
         </section>
 
         {/* 3. BARRE DES CATÉGORIES */}
-        <section className="mb-10 overflow-x-auto pb-2">
+        <section className="mb-10 overflow-x-auto pb-2 flex items-center gap-4">
+          <SlidersHorizontal className="h-4 w-4 text-slate-400 shrink-0 hidden md:block" />
           <div className="flex gap-3 whitespace-nowrap">
             {categories.map((cat, idx) => (
               <button key={idx} className={`px-4 py-1.5 text-xs font-semibold rounded-full border ${cat.color} transition-all hover:opacity-80`}>
@@ -115,7 +134,7 @@ export default function BlogHome() {
           <h2 className="text-xl font-bold text-[#0F172A] mb-6">Articles Récents</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {recentArticles.map((article) => (
-              <div key={article.id} className="border border-slate-100 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+              <div key={article.id} className="border border-slate-100 rounded-xl overflow-hidden hover:shadow-md transition-shadow bg-white">
                 <div className="h-44 bg-slate-50 flex items-center justify-center text-3xl">{article.icon}</div>
                 <div className="p-5">
                   <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${article.badgeColor}`}>
@@ -125,7 +144,10 @@ export default function BlogHome() {
                     {article.title}
                   </h3>
                   <p className="text-slate-500 text-xs mt-2 line-clamp-2">{article.excerpt}</p>
-                  <div className="text-[11px] text-slate-400 mt-4">{article.date}</div>
+                  <div className="flex items-center justify-between text-[11px] text-slate-400 mt-4">
+                    <span>{article.date}</span>
+                    <span>⏱️ {article.readTime}</span>
+                  </div>
                 </div>
               </div>
             ))}
