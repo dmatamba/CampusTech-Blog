@@ -1,5 +1,16 @@
 import React from 'react';
 
+// --- TYPES DE DONNÉES OFFICIELS ---
+interface Article {
+  id: number;
+  title: string;
+  excerpt: string;
+  category: string;
+  badgeColor: string;
+  icon: string;
+  date: string;
+}
+
 export default function BlogHome() {
   const categories = [
     { name: "IA & Machine Learning", color: "border-emerald-500 text-emerald-500 bg-emerald-500/10" },
@@ -8,6 +19,36 @@ export default function BlogHome() {
     { name: "Cybersécurité", color: "border-red-500 text-red-500 bg-red-500/10" },
     { name: "Cloud & DevOps", color: "border-orange-500 text-orange-500 bg-orange-500/10" },
     { name: "Afrique Tech", color: "border-yellow-500 text-yellow-500 bg-yellow-500/10" }
+  ];
+
+  const recentArticles: Article[] = [
+    {
+      id: 1,
+      title: "Comment devenir Data Scientist en Afrique en 2026",
+      excerpt: "Le guide complet pour s'orienter, acquérir les bonnes compétences et décrocher son premier emploi.",
+      category: "Carrière Tech",
+      badgeColor: "text-blue-600 border-blue-100 bg-blue-50",
+      icon: "💻",
+      date: "20 Mai 2026"
+    },
+    {
+      id: 2,
+      title: "Les 5 menaces numériques qui guettent les PME locales",
+      excerpt: "Comprendre les bases de la sécurité informatique pour protéger vos données contre les attaques.",
+      category: "Cybersécurité",
+      badgeColor: "text-red-500 border-red-100 bg-red-50",
+      icon: "🔒",
+      date: "18 Mai 2026"
+    },
+    {
+      id: 3,
+      title: "L'essor des infrastructures décentralisées",
+      excerpt: "Analyse de la transformation digitale et des solutions locales émergentes sur le continent.",
+      category: "Afrique Tech",
+      badgeColor: "text-yellow-600 border-yellow-100 bg-yellow-50",
+      icon: "🌍",
+      date: "15 Mai 2026"
+    }
   ];
 
   return (
@@ -31,20 +72,20 @@ export default function BlogHome() {
 
       <main className="max-w-7xl mx-auto px-4 py-8">
         {/* 2. SECTION HERO */}
-        <section className="mb-12 bg-slate-900 rounded-2xl overflow-hidden shadow-sm grid md:grid-cols-2">
-          <div className="h-64 md:h-full bg-gradient-to-br from-[#2563EB]/20 to-[#10B981]/20 flex items-center justify-center p-8 border-b md:border-b-0 md:border-r border-slate-800">
+        <section className="mb-12 bg-[#0F172A] rounded-2xl overflow-hidden shadow-sm grid md:grid-cols-2">
+          <div className="h-64 md:h-full bg-gradient-to-br from-blue-600/20 to-emerald-500/20 flex items-center justify-center p-8 border-b md:border-b-0 md:border-r border-slate-800">
             <div className="text-center">
               <span className="text-5xl">🤖</span>
               <p className="text-slate-400 mt-2 text-sm font-mono">Edge AI / Offline System</p>
             </div>
           </div>
-          <div className="p-8 md:p-12 flex flex-col justify-center bg-[#0F172A] text-white">
+          <div className="p-8 md:p-12 flex flex-col justify-center text-white">
             <div className="mb-4">
               <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#10B981]/10 text-[#10B981] border border-[#10B981]/20">
                 IA & Machine Learning
               </span>
             </div>
-            <h1 className="text-2xl md:text-4xl font-bold tracking-tight mb-4 text-white leading-tight">
+            <h1 className="text-2xl md:text-4xl font-bold tracking-tight mb-4 leading-tight">
               L'ère du logiciel embarqué : Relever le défi de l'IA sans connexion internet
             </h1>
             <p className="text-slate-300 text-base mb-6 leading-relaxed">
@@ -59,7 +100,7 @@ export default function BlogHome() {
         </section>
 
         {/* 3. BARRE DES CATÉGORIES */}
-        <section className="mb-10 overflow-x-auto pb-2 scrollbar-none">
+        <section className="mb-10 overflow-x-auto pb-2">
           <div className="flex gap-3 whitespace-nowrap">
             {categories.map((cat, idx) => (
               <button key={idx} className={`px-4 py-1.5 text-xs font-semibold rounded-full border ${cat.color} transition-all hover:opacity-80`}>
@@ -73,33 +114,21 @@ export default function BlogHome() {
         <section className="mb-16">
           <h2 className="text-xl font-bold text-[#0F172A] mb-6">Articles Récents</h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="border border-slate-100 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
-              <div className="h-44 bg-slate-50 flex items-center justify-center text-3xl">💻</div>
-              <div className="p-5">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600">Carrière Tech</span>
-                <h3 className="font-bold text-base mt-2 text-[#0F172A] hover:text-[#2563EB] cursor-pointer">Comment devenir Data Scientist en Afrique en 2026</h3>
-                <p className="text-slate-500 text-xs mt-2 line-clamp-2">Le guide complet pour s'orienter, acquérir les bonnes compétences et décrocher son premier emploi.</p>
-                <div className="text-[11px] text-slate-400 mt-4">20 Mai 2026</div>
+            {recentArticles.map((article) => (
+              <div key={article.id} className="border border-slate-100 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                <div className="h-44 bg-slate-50 flex items-center justify-center text-3xl">{article.icon}</div>
+                <div className="p-5">
+                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${article.badgeColor}`}>
+                    {article.category}
+                  </span>
+                  <h3 className="font-bold text-base mt-3 text-[#0F172A] hover:text-[#2563EB] cursor-pointer line-clamp-2">
+                    {article.title}
+                  </h3>
+                  <p className="text-slate-500 text-xs mt-2 line-clamp-2">{article.excerpt}</p>
+                  <div className="text-[11px] text-slate-400 mt-4">{article.date}</div>
+                </div>
               </div>
-            </div>
-            <div className="border border-slate-100 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
-              <div className="h-44 bg-slate-50 flex items-center justify-center text-3xl">🔒</div>
-              <div className="p-5">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-red-500">Cybersécurité</span>
-                <h3 className="font-bold text-base mt-2 text-[#0F172A] hover:text-[#2563EB] cursor-pointer">Les 5 menaces numériques qui guettent les PME locales</h3>
-                <p className="text-slate-500 text-xs mt-2 line-clamp-2">Comprendre les bases de la sécurité informatique pour protéger vos données contre les attaques.</p>
-                <div className="text-[11px] text-slate-400 mt-4">18 Mai 2026</div>
-              </div>
-            </div>
-            <div className="border border-slate-100 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
-              <div className="h-44 bg-slate-50 flex items-center justify-center text-3xl">🌍</div>
-              <div className="p-5">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-yellow-600">Afrique Tech</span>
-                <h3 className="font-bold text-base mt-2 text-[#0F172A] hover:text-[#2563EB] cursor-pointer">L'essor des infrastructures décentralisées</h3>
-                <p className="text-slate-500 text-xs mt-2 line-clamp-2">Analyse de la transformation digitale et des solutions locales émergentes sur le continent.</p>
-                <div className="text-[11px] text-slate-400 mt-4">15 Mai 2026</div>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
@@ -119,9 +148,9 @@ export default function BlogHome() {
         <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="font-medium text-slate-300">CampusTech – Comprendre la technologie. Construire l’avenir.</p>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-white">LinkedIn</a>
-            <a href="#" className="hover:text-white">Facebook</a>
-            <a href="#" className="hover:text-white">X (Twitter)</a>
+            <span className="hover:text-white cursor-pointer">LinkedIn</span>
+            <span className="hover:text-white cursor-pointer">Facebook</span>
+            <span className="hover:text-white cursor-pointer">X (Twitter)</span>
           </div>
         </div>
       </footer>
